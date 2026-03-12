@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Create Account</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      background-image: url(blackie.avif);
+      background-repeat: no-repeat;
+      background-size: cover;
+      font-family: Arial, sans-serif;
+      color: white;
+    }
+
+    .signup-container {
+      background: white;
+      color: black;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+      text-align: center;
+      width: 90%;
+      max-width: 400px;
+    }
+
+    h1 {
+      font-size: 24px;
+      margin-bottom: 20px;
+    }
+
+    input {
+      width: 100%;
+      padding: 10px;
+      margin: 10px 0;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      font-size: 16px;
+    }
+
+    button {
+      width: 100%;
+      padding: 10px;
+      background-color: black;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: gray;
+    }
+
+    .login-option {
+      margin-top: 20px;
+      text-align: center;
+    }
+
+    .login-option a {
+      color: black;
+      font-size: 14px;
+      text-decoration: none;
+    }
+
+    .login-option a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <div class="signup-container">
+    <h1>Create Account</h1>
+    <input type="text" id="username" placeholder="Full Name" required>
+    <input type="email" id="email" placeholder="Email" required>
+    <input type="password" id="password" placeholder="Password" required>
+    <input type="password" id="confirm-password" placeholder="Confirm Password" required>
+    <button type="submit" onclick="registerUser()">Sign Up</button>  <!-- ✅ Added onclick -->
+    
+    <div class="login-option">
+      <p>Already have an account? <a href="login.html">Login</a></p>
+    </div>
+  </div>
+
+<script>
+  async function registerUser() {
+    alert("Register button clicked!"); // ✅ Debugging step
+
+    const username = document.getElementById("username").value;
+    const email = document.getElementById("email").value;
+    const password = document.getElementById("password").value;
+    const confirmPassword = document.getElementById("confirm-password").value;
+
+    // ✅ Check if passwords match
+    if (password !== confirmPassword) {
+      alert("Passwords do not match!");
+      return;
+    }
+
+    try {
+      const response = await fetch("http://127.0.0.1:5000/register", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ username, email, password })
+      });
+
+      const data = await response.json();
+      alert(data.message || data.error);  // Show response in alert
+
+      // ✅ If successful, redirect to login page
+      if (data.message === "User registered successfully") {
+        window.location.href = "login.html";
+      }
+
+    } catch (error) {
+      alert("Error connecting to server!");
+      console.error(error);
+    }
+  }
+</script>
+
+</body>
+</html>

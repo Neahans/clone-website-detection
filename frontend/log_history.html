@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>REPLICA - Log History</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: white;
+            color: #333;
+        }
+        header {
+            background-image: url(blackie.avif);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+        .container {
+            max-width: 800px;
+            margin: 40px auto;
+            padding: 20px;
+            background: white;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+        .history-list {
+            list-style: none;
+            padding: 0;
+        }
+        .history-item {
+            padding: 12px;
+            border-bottom: 1px solid #eee;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .history-item:last-child {
+            border-bottom: none;
+        }
+        .safe-label {
+            padding: 5px 10px;
+            border-radius: 4px;
+            font-weight: bold;
+            font-size: 0.8rem;
+        }
+        .safe {
+            background-color: #d4edda;
+            color: #155724;
+        }
+        .unsafe {
+            background-color: #f8d7da;
+            color: #721c24;
+        }
+        .url-text {
+            width: 70%;
+            word-break: break-all;
+        }
+        .back-btn {
+            display: inline-block;
+            background-color: #333;
+            color: white;
+            text-decoration: none;
+            padding: 10px 20px;
+            margin: 10px;
+            border-radius: 5px;
+            font-size: 1rem;
+            font-weight: bold;
+            transition: background-color 0.3s ease;
+        }
+        .back-btn:hover {
+            background-color: #555;
+        }
+        .clear-btn {
+            background-color: #dc3545;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background-color 0.3s ease;
+        }
+        .clear-btn:hover {
+            background-color: #c82333;
+        }
+        .no-history {
+            text-align: center;
+            padding: 20px;
+            color: #666;
+        }
+        .actions {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+        .timestamp {
+            font-size: 0.8rem;
+            color: #666;
+            margin-top: 4px;
+        }
+        .debug-info {
+            background-color: #f8f9fa;
+            padding: 10px;
+            margin-top: 20px;
+            border-radius: 5px;
+            font-family: monospace;
+            font-size: 12px;
+            white-space: pre-wrap;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>REPLICA</h1>
+        <p>Website Log History</p>
+    </header>
+
+    <div class="container">
+        <div class="actions">
+            <a href="home.html" class="back-btn">← Back to Home</a>
+            <button class="clear-btn" id="clearHistory">Clear History</button>
+        </div>
+        
+        <div id="historyContainer">
+            <p class="no-history">Loading history...</p>
+        </div>
+        
+        <div id="debugInfo" class="debug-info"></div>
+    </div>
+
+    <script>
+    const BACKEND_URL = "http://127.0.0.1:5000";
+
+    document.addEventListener("DOMContentLoaded", function () {
+        loadHistory();
+        document.getElementById("clearHistory").addEventListener("click", clearHistory);
+    });
+
+    function loadHistory() {
+        chrome.storage.local.get(['authToken'], function (result) {
+            const authToken = result.authToken;
+
+            if (!authToken) {
+                document.getElementById("historyContainer").innerHTML = '<p class="no-history">Please log in to view history.</p>';
+                return;
+            }
+
+            fetch(`${BACKEND_URL}/history`, {
+                method: 'GET',
+                headers: {
+                    'Authorization': `Bearer ${authToken}`
+                }
+            })
+                .then(response => response.json())
+                .then(data => {
+                    const historyContainer = document.getElementById("historyContainer");
+
+                    if (!data.history || data.history.length === 0) {
+                        historyContainer.innerHTML = '<p class="no-history">No history available.</p>';
+                        return;
+                    }
+
+                    const list = document.createElement("ul");
+                    list.className = "history-list";
+
+                    data.history.forEach(item => {
+                        const listItem = document.createElement("li");
+                        listItem.className = "history-item";
+
+                        const urlText = document.createElement("div");
+                        urlText.className = "url-text";
+                        urlText.textContent = item.url;
+
+                        const timestamp = document.createElement("div");
+                        timestamp.className = "timestamp";
+                        timestamp.textContent = new Date(item.timestamp).toLocaleString();
+
+                        const statusLabel = document.createElement("span");
+                        statusLabel.className = `safe-label ${item.safe ? 'safe' : 'unsafe'}`;
+                        statusLabel.textContent = item.safe ? "SAFE" : "UNSAFE";
+
+                        listItem.appendChild(urlText);
+                        listItem.appendChild(timestamp);
+                        listItem.appendChild(statusLabel);
+                        list.appendChild(listItem);
+                    });
+
+                    historyContainer.innerHTML = ''; // Clear previous content
+                    historyContainer.appendChild(list);
+                })
+                .catch(error => {
+                    console.error("Error loading history:", error);
+                    document.getElementById("historyContainer").innerHTML = '<p class="no-history">Error loading history.</p>';
+                });
+        });
+    }
+
+    function clearHistory() {
+        if (!confirm("Are you sure you want to clear all history?")) return;
+
+        chrome.storage.local.get(['authToken'], function (result) {
+            const authToken = result.authToken;
+            if (!authToken) {
+                alert("Please log in to clear history.");
+                return;
+            }
+
+            fetch(`${BACKEND_URL}/clear_history`, {
+                method: 'POST',
+                headers: {
+                    'Authorization': `Bearer ${authToken}`
+                }
+            })
+                .then(response => response.json())
+                .then(data => {
+                    alert(data.message);
+                    loadHistory(); // Reload history
+                })
+                .catch(error => {
+                    console.error("Error clearing history:", error);
+                    alert("Failed to clear history.");
+                });
+        });
+    }
+</script>
+
+
+</body>
+</html>

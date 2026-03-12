@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Replica App Tutorial</title>
+
+    <!-- Swiper.js CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.css" />
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: #f4f4f4;
+            text-align: center;
+        }
+
+        .swiper-container {
+            width: 100%;
+            height: 100vh;
+            margin: auto;
+        }
+
+        .swiper-slide {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background: white;
+            border-radius: 10px;
+            padding: 40px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h2 {
+            color: #007bff;
+            margin-bottom: 15px;
+        }
+
+        p {
+            font-size: 18px;
+            margin: 10px 0;
+        }
+
+        img {
+            width: 70%;
+            max-width: 400px;
+            border-radius: 10px;
+        }
+
+        /* Reduced size for image in 3rd slide */
+        .third-slide img {
+            width: 50%;
+            max-width: 150px;
+        }
+
+        /* Styling for 4th slide to align content properly */
+        .fourth-slide {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+
+        .fourth-slide .content-box {
+            background: #f9f9f9;
+            padding: 20px;
+            border-radius: 10px;
+            width: 100%;
+            max-width: 500px;
+            box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .fourth-slide ul {
+            text-align: left;
+            padding: 0;
+            list-style-type: none;
+            margin: 15px 0;
+        }
+
+        .fourth-slide ul li {
+            margin-bottom: 10px;
+            font-size: 16px;
+            display: flex;
+            align-items: center;
+        }
+
+        .fourth-slide ul li::before {
+            content: "✔";
+            color: #007bff;
+            font-weight: bold;
+            margin-right: 8px;
+        }
+
+        .fourth-slide img {
+            margin: 20px 0;
+            width: 50%;
+            max-width: 100px;
+        }
+
+        .button-container {
+            margin-top: 20px;
+            display: flex;
+            gap: 10px;
+        }
+
+        .button-container button {
+            padding: 12px 18px;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+
+        .later {
+            background: #ccc;
+        }
+
+        .enable {
+            background: #007bff;
+            color: white;
+        }
+
+        /* Navigation Buttons */
+        .swiper-button-next, .swiper-button-prev {
+            color: #007bff;
+        }
+
+        /* Pagination Dots */
+        .swiper-pagination-bullet {
+            background: #007bff;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="swiper-container">
+        <div class="swiper-wrapper">
+
+            <!-- Slide 1: Welcome -->
+            <div class="swiper-slide">
+                <h2>Welcome to Replica</h2>
+                <p>Replica helps detect fake websites and provides the correct links.</p>
+                <img src="logo-removebg.png" alt="Welcome">
+            </div>
+
+            <!-- Slide 2: How It Works -->
+            <div class="swiper-slide">
+                <h2>How It Works</h2>
+                <p>It analyzes the website URL and verifies authenticity.</p>
+                <img src="tutorial_image.jpeg" alt="How it works">
+            </div>
+
+            <!-- Slide 3: Get Started -->
+            <div class="swiper-slide third-slide">
+                <h2>Get Started</h2>
+                <p>Enable protection and start browsing securely.</p>
+                <img src="https://img.icons8.com/ios-filled/100/000000/ok--v1.png" alt="Get Started">
+            </div>
+
+            <!-- Slide 4: Enable Replica -->
+            <div class="swiper-slide fourth-slide">
+                <h2>Enable Replica Service</h2>
+
+                <div class="content-box">
+                    <p>Replica requires accessibility permissions to provide web protection.</p>
+                    <ul>
+                        <li>Tap Enable</li>
+                        <li>Tap Replica in the list</li>
+                        <li>Enable the switch</li>
+                        <li>Tap OK</li>
+                    </ul>
+                </div>
+
+                <img src="logo-removebg.png" alt="Enable Replica">
+
+                <div class="button-container">
+                    <button class="later" onclick="alert('You can enable it later in settings.')">Later</button>
+                    <button class="enable" onclick="alert('Replica Service Enabled!')">Enable</button>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Navigation Buttons -->
+        <div class="swiper-button-next"></div>
+        <div class="swiper-button-prev"></div>
+
+        <!-- Pagination Dots -->
+        <div class="swiper-pagination"></div>
+    </div>
+
+    <!-- Swiper.js Library -->
+    <script src="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js"></script>
+
+    <!-- Swiper Initialization -->
+    <script>
+        var swiper = new Swiper('.swiper-container', {
+            navigation: {
+                nextEl: '.swiper-button-next',
+                prevEl: '.swiper-button-prev',
+            },
+            pagination: {
+                el: '.swiper-pagination',
+                clickable: true,
+            },
+            loop: true
+        });
+    </script>
+
+</body>
+</html>

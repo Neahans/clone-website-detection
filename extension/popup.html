@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>REPLICA - URL Checker</title>
+    <style>
+        body {
+            width: 300px;
+            padding: 15px;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+        }
+
+        h2 {
+            margin-bottom: 15px;
+            text-align: center;
+            color: #333;
+        }
+
+        button {
+            width: 100%;
+            padding: 12px 15px;
+            font-size: 16px;
+            margin: 10px 0;
+            cursor: pointer;
+            border: none;
+            border-radius: 5px;
+            background-color: #007bff;
+            color: white;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        #toggle {
+            background-color: #28a745; /* Green for Enable */
+        }
+
+        #toggle.disable {
+            background-color: #dc3545; /* Red for Disable */
+        }
+
+        #toggle.disable:hover{
+          background-color: #c82333;
+        }
+    </style>
+</head>
+<body>
+    <h2>REPLICA - URL Checker</h2>
+    <button id="toggle">Enable URL Checking</button>
+    <script src="popup.js"></script>
+</body>
+</html>

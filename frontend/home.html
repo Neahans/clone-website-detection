@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>REPLICA - Clone Website Detection</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: white;
+            color: #333;
+            text-align: center;
+        }
+        header {
+            background-image: url(blackie.avif);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+        .container {
+            max-width: 800px;
+            margin: 40px auto;
+            padding: 20px;
+            background: white;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            text-align: center;
+        }
+        .access-btn {
+            padding: 10px 20px;
+            font-size: 1rem;
+            color: white;
+            background-color: black;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .access-btn.active {
+            background-color: green;
+        }
+        .tutorial-btn {
+            display: inline-block;
+            background-color: #4CAF50;
+            color: white;
+            text-decoration: none;
+            padding: 10px 20px;
+            margin: 10px;
+            border-radius: 5px;
+            font-size: 1rem;
+            font-weight: bold;
+            transition: background-color 0.3s ease;
+        }
+        .tutorial-btn:hover {
+            background-color: #080908;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>REPLICA</h1>
+        <p>Detect Clone Websites and Protect Your Online Presence</p>
+    </header>
+
+    <div class="container">
+        <h2>Welcome!</h2>
+        <p>Your all-in-one solution to automatically detect and block clone websites.</p>
+        <button class="access-btn" id="toggleButton" onclick="toggleAccess()">Enable</button>
+    </div>
+
+    <div class="container">
+        <a href="tutorial.html" class="tutorial-btn">📖 Tutorial</a>
+        <a href="privacy.html" class="tutorial-btn">🔒 Privacy Policy</a>
+        <a href="#" class="tutorial-btn" onclick="openLogHistory()">📜 Log History</a> 
+    </div>
+
+    <script>
+        let enableStatus = false;
+        const toggleButton = document.getElementById("toggleButton");
+
+        // Load Enable state from localStorage when page loads
+        document.addEventListener("DOMContentLoaded", async function () {
+            const storedEnable = localStorage.getItem("enableStatus");
+            if (storedEnable !== null) {
+                enableStatus = storedEnable === "true";
+                updateButton();
+            }
+
+            // Fetch user email from session storage
+            const userData = JSON.parse(localStorage.getItem("user"));
+            if (userData) {
+                try {
+                    const response = await fetch("http://127.0.0.1:5000/user");
+                    const data = await response.json();
+                    if (data.user) {
+                        enableStatus = data.user.enable || false;
+                        updateButton();
+                    }
+                } catch (error) {
+                    console.error("Error fetching user:", error);
+                }
+            }
+        });
+
+        async function toggleAccess() {
+            enableStatus = !enableStatus;
+            localStorage.setItem("enableStatus", enableStatus);
+            updateButton();
+
+            // Send Enable status to backend
+            const userData = JSON.parse(localStorage.getItem("user"));
+            if (userData) {
+                try {
+                    await fetch("http://127.0.0.1:5000/enable", {
+                        method: "POST",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify({ email: userData.email, enable: enableStatus }),
+                    });
+                } catch (error) {
+                    console.error("Error updating enable status:", error);
+                }
+            }
+        }
+
+        function updateButton() {
+            toggleButton.textContent = enableStatus ? "Enabled" : "Enable";
+            toggleButton.classList.toggle("active", enableStatus);
+        }
+
+        function openLogHistory() {
+    window.open("log_history.html", "_blank");
+}
+
+    </script>
+
+</body>
+</html>

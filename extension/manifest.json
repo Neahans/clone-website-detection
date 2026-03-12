@@ -1,0 +1,47 @@
+{
+    "manifest_version": 3,
+    "name": "REPLICA - Fake Site Detector",
+    "version": "1.0",
+    "permissions": [
+      "storage",
+      "tabs",
+      "activeTab",
+      "scripting",
+      "webRequest",
+      "webNavigation",
+      "webRequestBlocking"
+    ],
+    "host_permissions": [
+      "<all_urls>"
+    ],
+    "background": {
+      "service_worker": "background.js"
+    },
+    "content_scripts": [
+      {
+        "matches": [
+          "<all_urls>"
+        ],
+        "js": [
+          "content.js"
+        ],
+        "all_frames": true,
+        "run_at": "document_start"
+      }
+    ],
+    "web_accessible_resources": [
+      {
+        "resources": [
+          "*"
+        ],
+        "matches": [
+          "<all_urls>"
+        ]
+      }
+    ],
+    "action": {
+      "default_popup": "home.html",
+      "default_title": "REPLICA Home"
+    },
+    "description": "This extension helps detect and avoid fake websites designed to steal your information."
+  }

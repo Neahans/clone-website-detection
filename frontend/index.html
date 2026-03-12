@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dot and REPLICA Animation</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f0f0f0;
+        }
+
+        .container {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+
+        .dot {
+            width: 20px;
+            height: 20px;
+            background-color:black;
+            border-radius: 50%;
+            position: absolute;
+            left: -30px; /* Start off-screen */
+            animation: slide 3.5s forwards; /* Adjust duration to match letter animation */
+        }
+
+        .word {
+            font-size: 40px;
+            font-weight: bold;
+            letter-spacing: 2px;
+            display: flex;
+        }
+
+        .letter {
+            opacity: 0; /* Initially hidden */
+            animation: fadeIn 0.5s forwards;
+        }
+
+        /* Adjust delays to sync with dot */
+        .letter:nth-child(1) { animation-delay: 0.5s; } /* R */
+        .letter:nth-child(2) { animation-delay: 0.8s; }   /* E */
+        .letter:nth-child(3) { animation-delay: 1.1s; } /* P */
+        .letter:nth-child(4) { animation-delay: 1.4s; }   /* L */
+        .letter:nth-child(5) { animation-delay: 1.7s; } /* I */
+        .letter:nth-child(6) { animation-delay: 2s; }   /* C */
+        .letter:nth-child(7) { animation-delay: 2.3s; } /* A */
+
+        /* Animation for the dot sliding */
+        @keyframes slide {
+            0% {
+                left: -30px;
+            }
+            100% {
+                left: 200px; /* Align with the last letter */
+            }
+        }
+
+        /* Animation for letter fade-in */
+        @keyframes fadeIn {
+            0% {
+                opacity: 0;
+            }
+            100% {
+                opacity: 1;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="dot"></div>
+        <div class="word">
+            <div class="letter">R</div>
+            <div class="letter">E</div>
+            <div class="letter">P</div>
+            <div class="letter">L</div>
+            <div class="letter">I</div>
+            <div class="letter">C</div>
+            <div class="letter">A</div>
+        </div>
+    </div>
+    <script>
+        setTimeout(() => {
+          window.location.href = "login.html";
+        }, 4000);
+      </script>
+</body>
+</html>
