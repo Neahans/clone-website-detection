@@ -1,60 +1,62 @@
-Clone Website Detection
-Project Overview
+<h1 align="center">🔍 Clone Website Detection</h1>
 
-Clone Website Detection is a cybersecurity-based web application designed to identify phishing or cloned websites. The system analyzes website characteristics and predicts whether a given website is legitimate or a potential phishing clone.
+<p align="center">
+A cybersecurity project that detects <b>phishing or cloned websites</b> using machine learning.
+</p>
 
-The goal of this project is to help users avoid online fraud and phishing attacks by automatically detecting suspicious websites.
+<p align="center">
+<img src="https://img.shields.io/badge/Python-3.10-blue">
+<img src="https://img.shields.io/badge/Machine%20Learning-Scikit--Learn-orange">
+<img src="https://img.shields.io/badge/Frontend-HTML%20CSS%20JS-green">
+<img src="https://img.shields.io/badge/Status-Completed-success">
+</p>
 
-Features
+---
 
-Detects cloned or phishing websites
+## 📌 Project Overview
 
-Machine learning–based classification
+Clone Website Detection is a **cybersecurity web application** designed to detect phishing or fake websites.
 
-User-friendly web interface
+The system analyzes **URL and website features** and predicts whether the website is:
 
-Real-time website analysis
+✔ Legitimate  
+❌ Phishing / Clone Website  
 
-Displays prediction results instantly
+This helps users **avoid online fraud and malicious websites**.
 
-Tech Stack
+---
 
-Frontend
+## 🚀 Features
 
-HTML
+✨ Detects cloned websites  
+✨ Machine learning based prediction  
+✨ Simple and clean user interface  
+✨ Fast website analysis  
+✨ Helps prevent phishing attacks  
 
-CSS
+---
 
-JavaScript
+## 🧠 How It Works
 
-Backend
+1️⃣ User enters a **website URL**  
+2️⃣ The system extracts **important features from the URL**  
+3️⃣ Features are sent to the **ML model**  
+4️⃣ Model predicts whether the site is **safe or phishing**
 
-Python
+---
 
-Machine Learning
+## 🛠 Tech Stack
 
-Scikit-learn
+### Frontend
+- HTML
+- CSS
+- JavaScript
 
-Logistic Regression / Classification model
+### Backend
+- Python
 
+### Machine Learning
+- Scikit-learn
+- Classification Algorithms
 
-
-Use Case
-
-This project can be used in:
-
-Cybersecurity research
-
-Phishing detection systems
-
-Browser security tools
-
-Academic projects
-
-Future Improvements
-
-Real-time browser extension
-
-Deep learning model for better detection
-
-Cloud deployment
+---
